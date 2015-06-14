@@ -1,0 +1,15 @@
+#pragma pack(4)
+struct MyStruct
+{
+	int _iA;
+	double _dB;
+	char _c;
+	/*virtual void *Test(){ return NULL; }
+	virtual void *Test1(){ return NULL; }
+	virtual void *Test2(){ return NULL; }
+	static int ic;*/
+};
+
+	MyStruct m;
+	int a = 0;
+	a = sizeof(m);
