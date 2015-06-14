@@ -1,0 +1,205 @@
+// test.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include <list>  
+#include <vector>
+#include <set>  
+#include <map>  
+#include <queue>  
+using namespace std;
+
+//list 链式储存，插入删除效率高，随机访问效率低，需要从头开始便利
+//myList.sort,front,back,pop_front,pop_back,push_front,push_back
+//insert,remove
+/*bool single_digit(const int& value) { return (value<10); }
+struct cmp {bool operator () (const int& a, const int& b) { return a < b; };
+int _tmain(int argc, _TCHAR* argv[])
+{
+	list<int> mylist;
+	list<int>::iterator it;
+
+	for (int i = 1; i <= 5; i++) 
+		mylist.push_back(i); // 1 2 3 4 5
+
+	it = mylist.begin();
+	++it;       // it points now to number 2           ^
+
+	mylist.insert(it, 10);                        // 1 10 2 3 4 5
+
+	// "it" still points to number 2                      ^
+	mylist.insert(it, 2, 20);                      // 1 10 20 20 2 3 4 5
+
+	--it;       // it points now to the second 20  
+
+	int value = mylist.back();
+	value = mylist.front();
+	mylist.pop_front();
+	mylist.pop_back();
+	mylist.push_front(100);
+	mylist.remove(2);
+	mylist.remove_if(single_digit);
+	mylist.sort(cmp());
+
+	return 0;
+}*/
+
+
+//vector 内存中连续存储，随机访问效率高，可以通过下标计算出地址，插入删除效率低，需要内存拷贝和内存移动
+//[pos], at(), front,back,pop_back,push_back
+//insert,remove
+/*int _tmain(int argc, _TCHAR* argv[])
+{
+vector<int> myVector;
+vector<int>::iterator it;
+
+for (int i = 1; i <= 5; i++)
+myVector.push_back(i); // 1 2 3 4 5
+
+it = myVector.begin();
+++it;       // it points now to number 2           ^
+
+myVector.insert(it, 10);                        // 1 10 2 3 4 5
+--it;       // it points now to the second 20
+
+int value = myVector.back();
+myVector.pop_back();
+value = myVector.front();
+myVector.erase(it);
+value = myVector[2];
+value = myVector.at(3);
+
+return 0;
+}*/
+
+//set 只有一个值，没有键。内存中链表来组织,插入操作和删除操作上比向量(vector)快，但查找或添加末尾的元素时会有些慢,
+//非常高效的平衡检索二叉树：红黑树，他的插入删除效率比其他序列容器高是因为不需要做内存拷贝和内存移动，而直接替换指向节点的指针即可。
+//find,insert
+/*struct cmp {
+	bool operator () (const int& a, const int& b) 
+	{ return a > b; }
+};
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	set<int,cmp> mySet;
+	set<int>::iterator it;
+
+	for (int i = 1; i <= 5; i++)
+		mySet.insert(i); // 1 2 3 4 5
+
+	it = mySet.find(3);
+	it = mySet.begin();
+	++it;       // it points now to number 2           ^
+
+	mySet.insert(it, 10);                        // 1 10 2 3 4 5
+	--it;       // it points now to the second 20
+
+	int value;
+	mySet.erase(it);
+
+	return 0;
+}*/
+
+//map 值键对。内存中链表来组织,插入操作和删除操作上比向量(vector)快，
+//非常高效的平衡检索二叉树：红黑树，他的插入删除效率比其他序列容器高是因为不需要做内存拷贝和内存移动，而直接替换指向节点的指针即可。
+//find,insert,[key],at(key)
+/*struct cmp {
+bool operator () (const int& a, const int& b)
+{ return a > b; }
+};
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+map<int,string, cmp> myMap;
+map<int, string, cmp>::iterator it;
+int value;
+
+for (int i = 1; i <= 5; i++)
+myMap.insert(map<int, string>::value_type(i, "hello"));
+
+myMap[100] = "hello100";
+
+it = myMap.find(3);
+it = myMap.begin();
+++it;       // it points now to number 2           ^
+
+myMap.insert(it, pair<int, string>(10, "hello" + 10));                        // 1 10 2 3 4 5
+--it;       // it points now to the second 20
+string s = myMap[10];
+s = myMap.at(10);
+s = myMap.at(2);
+myMap.erase(it);
+
+return 0;
+}*/
+
+//边迭代边删除对比
+//vector,deque	只能用:it = myContainer.erase(it);
+//list,set,map	可以用:it = myContainer.erase(it);和 myContainer.erase(it++);
+struct cmp {
+bool operator () (const int& a, const int& b)
+{ return a > b; }
+};
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+//vector
+vector<int> myVector;
+for (int i = 1; i <= 5; i++)
+ myVector.push_back(i); // 1 2 3 4 5
+for (vector<int>::iterator it = myVector.begin(); it != myVector.end();)
+{
+	it = myVector.erase(it);
+}
+
+//queue
+queue<int> myQueue;
+for (int i = 1; i <= 5; i++)
+myQueue.push(i);
+
+while (myQueue.size())
+myQueue.pop();
+
+//deque
+deque<int> myDeque;
+for (int i = 1; i <= 5; i++)
+myDeque.push_back(i);
+for (deque<int>::iterator it = myDeque.begin(); it != myDeque.end();)
+{
+	it = myDeque.erase(it);
+}
+
+//list
+list<int> myList;
+for (int i = 1; i <= 5; i++)
+myList.push_back(i); // 1 2 3 4 5
+myList.sort(cmp());
+for (list<int>::iterator it = myList.begin(); it != myList.end();)
+{
+	//it = myList.erase(it);
+	myList.erase(it++);
+}
+
+//set
+set<int, cmp> mySet;
+for (int i = 1; i <= 5; i++)
+ mySet.insert(i); // 1 2 3 4 5
+for (set<int>::iterator it = mySet.begin(); it != mySet.end();)
+{
+	it = mySet.erase(it);
+	//mySet.erase(it++);
+}
+
+map<int,string, cmp> myMap;
+for (int i = 1; i <= 5; i++)
+myMap.insert(map<int, string>::value_type(i, "hello"));
+for (map<int, string>::iterator it = myMap.begin(); it != myMap.end();)
+{
+	it = myMap.erase(it);
+	//myMap.erase(it++);
+}
+
+return 0;
+}
